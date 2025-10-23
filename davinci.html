@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DaVinci Resolve Complete Tutorial - Interactive Learning Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #2563eb;
+            --primary-purple: #7c3aed;
+            --accent-orange: #f97316;
+            --bg-white: #ffffff;
+            --bg-gray: #f8fafc;
+            --text-dark: #1e293b;
+            --text-medium: #475569;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg-white);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-purple) 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+
+        .nav-pills {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding: 0 1rem;
+        }
+
+        .nav-pill {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            color: white;
+        }
+
+        .nav-pill:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .nav-pill.active {
+            background: var(--accent-orange);
+            border-color: var(--accent-orange);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .module {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            display: none;
+        }
+
+        .module.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .module h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-dark);
+            border-bottom: 3px solid var(--primary-blue);
+            padding-bottom: 1rem;
+        }
+
+        .module-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-purple);
+            font-weight: 600;
+        }
+
+        .section h4 {
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .section p {
+            color: var(--text-medium);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .feature-card {
+            background: var(--bg-gray);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.1);
+            border-color: var(--primary-blue);
+        }
+
+        .feature-card h4 {
+            color: var(--primary-blue);
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-medium);
+        }
+
+        .feature-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-orange);
+            font-weight: bold;
+        }
+
+        .tutorial-box {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(124, 58, 237, 0.05));
+            border-left: 4px solid var(--primary-blue);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .tutorial-box h4 {
+            color: var(--primary-blue);
+            margin-top: 0;
+        }
+
+        .step-by-step {
+            counter-reset: step-counter;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .step-by-step li {
+            counter-increment: step-counter;
+            padding: 1rem 0 1rem 3rem;
+            position: relative;
+            color: var(--text-medium);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .step-by-step li:last-child {
+            border-bottom: none;
+        }
+
+        .step-by-step li:before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 1rem;
+            background: var(--accent-orange);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--accent-orange);
+            width: 0%;
+            transition: width 0.3s ease;
+            z-index: 101;
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 3rem;
+            margin-top: 3rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 2px solid var(--primary-blue);
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-header h2 {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            border: none;
+            padding-bottom: 0;
+        }
+
+        .quiz-question {
+            background: var(--bg-gray);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .quiz-question h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+        }
+
+        .quiz-question p {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .quiz-option {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--border-color);
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary-blue);
+            background: rgba(37, 99, 235, 0.05);
+            transform: translateX(5px);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--primary-blue);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .quiz-option.correct {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .quiz-option.incorrect {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            color: var(--text-dark);
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            color: var(--text-dark);
+        }
+
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .quiz-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .quiz-btn.primary {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .quiz-btn.primary:hover {
+            background: var(--primary-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .quiz-btn.secondary {
+            background: var(--bg-gray);
+            color: var(--text-dark);
+            border: 2px solid var(--border-color);
+        }
+
+        .quiz-btn.secondary:hover {
+            border-color: var(--primary-blue);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .quiz-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        /* Drag and Drop Game Styles */
+        .game-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .game-column {
+            background: var(--bg-gray);
+            padding: 2rem;
+            border-radius: 10px;
+            min-height: 400px;
+            border: 1px solid var(--border-color);
+        }
+
+        .game-column h3 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--primary-purple);
+        }
+
+        .draggable-item {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+            color: white;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            cursor: move;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .draggable-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .draggable-item.dragging {
+            opacity: 0.5;
+        }
+
+        .drop-zone {
+            background: white;
+            border: 2px dashed var(--border-color);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            min-height: 80px;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .drop-zone.drag-over {
+            background: rgba(37, 99, 235, 0.1);
+            border-color: var(--primary-blue);
+        }
+
+        .drop-zone.correct {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: #10b981;
+        }
+
+        .drop-zone.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+        }
+
+        .game-result {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 1.5rem;
+            display: none;
+            padding: 2rem;
+            background: var(--bg-gray);
+            border-radius: 10px;
+        }
+
+        .game-result.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .nav-pills {
+                gap: 0.5rem;
+            }
+
+            .nav-pill {
+                padding: 0.5rem 1rem;
+                font-size: 0.75rem;
+            }
+
+            .module {
+                padding: 1.5rem;
+            }
+
+            .module h2 {
+                font-size: 1.5rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quiz-container {
+                padding: 1.5rem;
+            }
+
+            .game-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <header class="header">
+        <h1>🎬 DaVinci Resolve Complete Tutorial</h1>
+        <p>Master the Professional Video Editing Workflow</p>
+        
+        <div class="nav-pills">
+            <button class="nav-pill active" data-module="media">📁 Media</button>
+            <button class="nav-pill" data-module="cut">✂️ Cut</button>
+            <button class="nav-pill" data-module="edit">🎬 Edit</button>
+            <button class="nav-pill" data-module="fusion">⚡ Fusion</button>
+            <button class="nav-pill" data-module="color">🎨 Color</button>
+            <button class="nav-pill" data-module="fairlight">🎵 Fairlight</button>
+            <button class="nav-pill" data-module="deliver">📤 Deliver</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Media Module -->
+        <section class="module active" id="media">
+            <h2>
+                <div class="module-icon">📁</div>
+                Media Page
+            </h2>
+            
+            <div class="section">
+                <h3>Overview</h3>
+                <p>The Media Page is your central hub for importing, organizing, and managing all media assets used in your DaVinci Resolve project. This is where your video editing journey begins.</p>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>📖 Tutorial: Importing Media</h4>
+                <ol class="step-by-step">
+                    <li>Open DaVinci Resolve and create a new project or open an existing one</li>
+                    <li>Navigate to the Media Page by clicking the "Media" tab at the bottom</li>
+                    <li>In the Media Storage panel (top-left), browse to the folder containing your media files</li>
+                    <li>Select the files you want to import and drag them into the Media Pool</li>
+                    <li>Alternatively, right-click in the Media Pool and select "Import Media" to browse files</li>
+                    <li>Your imported media now appears in the Media Pool, ready for editing</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h3>Key Features & Tools</h3>
+                
+                <div class="tutorial-box">
+                    <h4>🗂️ Creating and Using Bins</h4>
+                    <ol class="step-by-step">
+                        <li>Right-click in the Media Pool and select "New Bin"</li>
+                        <li>Name your bin (e.g., "Interviews", "B-Roll", "Music")</li>
+                        <li>Drag and drop media files into the appropriate bins</li>
+                        <li>Create nested bins by dragging one bin into another for complex organization</li>
+                        <li>Use color-coded bins by right-clicking and selecting a color</li>
+                    </ol>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Media Pool Functions</h4>
+                        <ul class="feature-list">
+                            <li>Import video, audio, and image files to the Media Pool</li>
+                            <li>Create bins to organize media into folders for easy access</li>
+                            <li>View and edit metadata (file name, duration, creation date)</li>
+                            <li>Smart Bins automatically organize media based on metadata criteria</li>
+                            <li>Preview media by playing back clips directly within the Media Pool</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Clip Management</h4>
+                        <ul class="feature-list">
+                            <li>Modify clip properties (frame rate, pixel aspect ratio, color space)</li>
+                            <li>Add clips to timeline using Insert, Overwrite, and Append modes</li>
+                            <li>Create markers on clips for reference or notes</li>
+                            <li>Review content before adding to timeline</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>🎯 Using Smart Bins</h4>
+                <ol class="step-by-step">
+                    <li>Right-click in the Media Pool and select "Add Smart Bin"</li>
+                    <li>Set criteria like "Frame Rate equals 60 fps" or "Duration greater than 10 seconds"</li>
+                    <li>Click OK - the Smart Bin automatically populates with matching clips</li>
+                    <li>Smart Bins update automatically as you add new media to your project</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Cut Module -->
+        <section class="module" id="cut">
+            <h2>
+                <div class="module-icon">✂️</div>
+                Cut Page
+            </h2>
+            
+            <div class="section">
+                <h3>Overview</h3>
+                <p>The Cut Page is a streamlined editing environment focused on quick cuts and assembly. It's designed for rapid editing workflows and getting your rough cut together efficiently.</p>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>⚡ Quick Start: Fast Editing Workflow</h4>
+                <ol class="step-by-step">
+                    <li>Switch to the Cut Page by clicking the "Cut" tab at the bottom</li>
+                    <li>Your media appears in the Source Tape viewer at the top</li>
+                    <li>Scrub through the Source Tape to find the clip you want</li>
+                    <li>Mark In (I key) and Out (O key) points around the section you want to use</li>
+                    <li>Click "Append" to add the clip to the end of your timeline</li>
+                    <li>Repeat this process to quickly build your rough cut</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h3>Cut Tools & Techniques</h3>
+                
+                <div class="tutorial-box">
+                    <h4>✂️ Using the Blade Tool</h4>
+                    <ol class="step-by-step">
+                        <li>Press B on your keyboard to activate the Blade Tool</li>
+                        <li>Position the playhead where you want to make a cut</li>
+                        <li>Click on the clip to split it at the playhead position</li>
+                        <li>The Blade Tool cuts across all tracks at once, maintaining sync</li>
+                        <li>Press A to return to the Selection Tool</li>
+                    </ol>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Source Tape</h4>
+                        <ul class="feature-list">
+                            <li>View all clips as continuous footage</li>
+                            <li>Quickly scrub through all media</li>
+                            <li>Mark In/Out points for editing</li>
+                            <li>Fast review without switching clips</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Dual Timeline</h4>
+                        <ul class="feature-list">
+                            <li>Overview timeline shows entire edit</li>
+                            <li>Detailed timeline for precise editing</li>
+                            <li>Zoom in/out seamlessly</li>
+                            <li>Navigate quickly between sections</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>🎬 Three-Point Editing</h4>
+                <ol class="step-by-step">
+                    <li>Mark In and Out points on your source clip (2 points)</li>
+                    <li>Position the playhead in your timeline where you want the clip (1 point)</li>
+                    <li>Press F9 for Insert edit (shifts existing clips) or F10 for Overwrite (replaces clips)</li>
+                    <li>The clip duration is determined by the source In/Out points</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Edit Module -->
+        <section class="module" id="edit">
+            <h2>
+                <div class="module-icon">🎬</div>
+                Edit Page
+            </h2>
+            
+            <div class="section">
+                <h3>Overview</h3>
+                <p>The Edit Page is the primary non-linear editing (NLE) environment for detailed timeline manipulation. This is where you refine your edit with precision and creativity.</p>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>🎯 Mastering Trim Modes</h4>
+                <ol class="step-by-step">
+                    <li><strong>Ripple Trim (Y):</strong> Hover over the edge of a clip until you see the yellow bracket icon</li>
+                    <li>Click and drag to adjust the clip length - subsequent clips shift automatically</li>
+                    <li><strong>Roll Trim (U):</strong> Position cursor between two clips until you see the red bracket icon</li>
+                    <li>Drag to adjust both clips simultaneously without changing overall timeline length</li>
+                    <li><strong>Slip Tool (Y twice):</strong> Changes what part of a clip plays without affecting timing</li>
+                    <li><strong>Slide Tool (Y three times):</strong> Moves clip along timeline, adjusting adjacent clips</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h3>Advanced Editing Tools</h3>
+                
+                <div class="tutorial-box">
+                    <h4>🔧 Using the Transform Tool</h4>
+                    <ol class="step-by-step">
+                        <li>Select a clip in the timeline</li>
+                        <li>Open the Inspector panel (top-right corner)</li>
+                        <li>Navigate to the "Transform" section</li>
+                        <li>Adjust Position X/Y to move the clip on screen</li>
+                        <li>Modify Scale to zoom in or out</li>
+                        <li>Change Rotation to tilt the clip</li>
+                        <li>Adjust Anchor Point to change the center of rotation/scaling</li>
+                        <li>Enable keyframes to animate these properties over time</li>
+                    </ol>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Trim Tools</h4>
+                        <ul class="feature-list">
+                            <li><strong>Ripple Trim:</strong> Adjusts duration and shifts subsequent clips</li>
+                            <li><strong>Roll Trim:</strong> Adjusts adjacent clip edges simultaneously</li>
+                            <li><strong>Slip Tool:</strong> Change in/out points, keep duration</li>
+                            <li><strong>Slide Tool:</strong> Move clip, affect adjacent clips</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Timeline Controls</h4>
+                        <ul class="feature-list">
+                            <li>Track enable/disable, lock, and solo</li>
+                            <li>Zoom controls for detail and overview</li>
+                            <li>Snapping for precise alignment</li>
+                            <li>Linked selection for synchronized editing</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Effects Library</h4>
+                        <ul class="feature-list">
+                            <li>Video transitions (dissolves, wipes)</li>
+                            <li>Audio transitions (crossfades)</li>
+                            <li>Color effects and filters</li>
+                            <li>Blur, glow, and stylize effects</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Inspector Panel</h4>
+                        <ul class="feature-list">
+                            <li>Transform controls (position, scale, rotation)</li>
+                            <li>Cropping and zoom options</li>
+                            <li>Blend modes and opacity</li>
+                            <li>Speed/duration adjustments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>🎨 Applying Video Transitions</h4>
+                <ol class="step-by-step">
+                    <li>Open the Effects Library panel (top-left)</li>
+                    <li>Navigate to "Video Transitions" and expand the category</li>
+                    <li>Drag a transition (e.g., "Cross Dissolve") onto the cut between two clips</li>
+                    <li>Double-click the transition in the timeline to open in the Inspector</li>
+                    <li>Adjust duration by dragging the edges of the transition</li>
+                    <li>Customize parameters in the Inspector (ease, alignment)</li>
+                </ol>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>⏱️ Speed Changes & Retiming</h4>
+                <ol class="step-by-step">
+                    <li>Right-click on a clip and select "Retime Controls"</li>
+                    <li>For constant speed: Click the speed indicator and choose a percentage (50% = half speed)</li>
+                    <li>For smooth slow motion: Right-click > Retime Curve > Speed Ramp</li>
+                    <li>Add keyframes to create speed variations within a single clip</li>
+                    <li>Use "Optical Flow" in the Inspector for smoother slow motion</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Fusion Module -->
+        <section class="module" id="fusion">
+            <h2>
+                <div class="module-icon">⚡</div>
+                Fusion Page
+            </h2>
+            
+            <div class="section">
+                <h3>Overview</h3>
+                <p>The Fusion Page is a node-based compositing environment for creating visual effects and motion graphics. It provides Hollywood-grade VFX capabilities within DaVinci Resolve.</p>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>🌟 Creating Your First Fusion Composition</h4>
+                <ol class="step-by-step">
+                    <li>Select a clip in the Edit page timeline</li>
+                    <li>Switch to the Fusion page - a MediaIn and MediaOut node appear automatically</li>
+                    <li>Right-click in the node area and select "Add Tool" or press Shift+Space</li>
+                    <li>Search for a tool (e.g., "Text+") and press Enter to add it</li>
+                    <li>Connect the Text+ node between MediaIn and MediaOut by dragging</li>
+                    <li>Modify the text in the Inspector panel on the right</li>
+                    <li>Return to Edit page - your text now appears on the clip</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h3>Fusion Tools & Techniques</h3>
+                
+                <div class="tutorial-box">
+                    <h4>🎭 Green Screen Keying</h4>
+                    <ol class="step-by-step">
+                        <li>Add your green screen footage to the timeline and open in Fusion</li>
+                        <li>Add a "Delta Keyer" node (Shift+Space, search "Delta Keyer")</li>
+                        <li>Connect MediaIn to Delta Keyer to MediaOut</li>
+                        <li>Use the eyedropper tool to sample the green color</li>
+                        <li>Adjust "Low" and "High" sliders to refine the key</li>
+                        <li>Add a "Merge" node to composite over a background</li>
+                        <li>Connect your background to the Merge node's background input</li>
+                        <li>Fine-tune with "Erode/Dilate" and "Blur" for clean edges</li>
+                    </ol>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Node-Based Workflow</h4>
+                        <ul class="feature-list">
+                            <li>Visual node tree for effect composition</li>
+                            <li>Non-destructive layer-based effects</li>
+                            <li>Connect nodes to create complex chains</li>
+                            <li>Reusable effect templates</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>VFX Tools</h4>
+                        <ul class="feature-list">
+                            <li>3D compositing and tracking</li>
+                            <li>Keying and rotoscoping</li>
+                            <li>Particle systems</li>
+                            <li>Motion graphics animation</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Text & Titles</h4>
+                        <ul class="feature-list">
+                            <li>Text+ tool for animated titles</li>
+                            <li>3D text with depth and lighting</li>
+                            <li>Follow path animation</li>
+                            <li>Custom fonts and styling</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Motion Graphics</h4>
+                        <ul class="feature-list">
+                            <li>Shape tools for graphics creation</li>
+                            <li>Spline-based animation</li>
+                            <li>Modifiers for complex motion</li>
+                            <li>Expressions for mathematical animation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>✨ Animated Lower Third Title</h4>
+                <ol class="step-by-step">
+                    <li>Create a new Fusion composition or select a clip</li>
+                    <li>Add a "Background" node and set the color to transparent or your choice</li>
+                    <li>Add a "Rectangle" node and position it in the lower third of frame</li>
+                    <li>Add a "Text+" node for the name/title</li>
+                    <li>Use "Merge" nodes to combine the rectangle and text</li>
+                    <li>Animate the position: Go to frame 0, set X position off-screen, add keyframe</li>
+                    <li>Move to frame 30, set X position to final location, add keyframe</li>
+                    <li>Apply easing in the Spline editor for smooth motion</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Color Module -->
+        <section class="module" id="color">
+            <h2>
+                <div class="module-icon">🎨</div>
+                Color Page
+            </h2>
+            
+            <div class="section">
+                <h3>Overview</h3>
+                <p>The Color Page is dedicated to color correction and grading, providing professional-grade tools used in Hollywood productions for achieving the perfect look.</p>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>🎨 Basic Color Correction Workflow</h4>
+                <ol class="step-by-step">
+                    <li>Switch to the Color page - your timeline appears at the bottom</li>
+                    <li>Select the first clip you want to grade</li>
+                    <li>Start with "Primary Color Wheels" in the bottom panel</li>
+                    <li>Balance the image: Adjust "Lift" for shadows, "Gamma" for midtones, "Gain" for highlights</li>
+                    <li>Use the center wheel to adjust color temperature</li>
+                    <li>Check the scopes (right panel) to ensure proper exposure</li>
+                    <li>Apply a LUT if desired (Right-click on the node > LUT > Browse)</li>
+                    <li>Add creative grading with additional nodes (Right-click in node tree > Add Node)</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h3>Color Grading Tools</h3>
+                
+                <div class="tutorial-box">
+                    <h4>🔧 Using Color Wheels Effectively</h4>
+                    <ol class="step-by-step">
+                        <li><strong>Lift (Shadows):</strong> Click and drag the center circle towards cool colors (blue) to remove warm color cast from shadows</li>
+                        <li>Adjust the slider below to control shadow brightness</li>
+                        <li><strong>Gamma (Midtones):</strong> Drag towards warm colors (orange) for golden hour look</li>
+                        <li>Use slider to brighten or darken overall image</li>
+                        <li><strong>Gain (Highlights):</strong> Subtle adjustments for sky and bright areas</li>
+                        <li><strong>Offset:</strong> Shifts all tonal ranges uniformly for overall color tint</li>
+                        <li>Reset individual wheels by clicking the reset button in the center</li>
+                    </ol>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Color Wheels</h4>
+                        <ul class="feature-list">
+                            <li><strong>Lift:</strong> Shadows/darkest parts</li>
+                            <li><strong>Gamma:</strong> Midtones adjustment</li>
+                            <li><strong>Gain:</strong> Highlights/brightest parts</li>
+                            <li><strong>Offset:</strong> Overall color balance</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Curves</h4>
+                        <ul class="feature-list">
+                            <li>Luma vs. Sat (saturation control)</li>
+                            <li>Luma vs. Luma (contrast)</li>
+                            <li>Hue vs. Sat (desaturate colors)</li>
+                            <li>Hue vs. Hue (color shifting)</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Scopes</h4>
+                        <ul class="feature-list">
+                            <li><strong>Waveform:</strong> Luminance levels</li>
+                            <li><strong>Parade:</strong> RGB channels separately</li>
+                            <li><strong>Vectorscope:</strong> Hue and saturation</li>
+                            <li><strong>Histogram:</strong> Luminance distribution</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Qualifiers</h4>
+                        <ul class="feature-list">
+                            <li>HSL qualifier for color selection</li>
+                            <li>Luma qualifier for brightness ranges</li>
+                            <li>Power Windows for spatial masks</li>
+                            <li>Tracking for moving objects</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>🎯 Skin Tone Correction</h4>
+                <ol class="step-by-step">
+                    <li>Add a new node (Right-click in node tree > Add Node > Add Serial)</li>
+                    <li>Open the "Qualifier" panel</li>
+                    <li>Use the eyedropper to sample skin tones in the viewer</li>
+                    <li>Adjust HSL ranges to refine the selection (check with the highlight mode)</li>
+                    <li>In the Color Wheels, gently shift Gamma towards natural skin tone (slightly orange)</li>
+                    <li>Reduce saturation slightly if needed for natural look</li>
+                    <li>Soften the mask edges using "Blur" in the Qualifier panel</li>
+                </ol>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>🌅 Creating Cinematic Look</h4>
+                <ol class="step-by-step">
+                    <li>Balance your footage first (neutral correction)</li>
+                    <li>Add a new serial node for creative grading</li>
+                    <li>In Color Wheels: Push Lift slightly towards teal/cyan</li>
+                    <li>Push Gain slightly towards orange/yellow</li>
+                    <li>Reduce saturation in midtones slightly (Gamma wheel slider)</li>
+                    <li>Add another node for contrast: Create an S-curve in the Curves panel</li>
+                    <li>Fine-tune with a LUT for the final look</li>
+                    <li>Apply to similar shots using "Still" (gallery) or "Apply Grade"</li>
+                </ol>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>📊 Reading Scopes</h4>
+                <ol class="step-by-step">
+                    <li><strong>Waveform:</strong> Bottom = black (0 IRE), Top = white (100 IRE). Keep within legal range</li>
+                    <li><strong>Parade:</strong> RGB should be balanced. If red is higher, image is too warm</li>
+                    <li><strong>Vectorscope:</strong> Skin tones fall along the line between yellow and red</li>
+                    <li><strong>Histogram:</strong> Should have data across the range without clipping at either end</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Fairlight Module -->
+        <section class="module" id="fairlight">
+            <h2>
+                <div class="module-icon">🎵</div>
+                Fairlight Page
+            </h2>
+            
+            <div class="section">
+                <h3>Overview</h3>
+                <p>The Fairlight Page is a full-featured digital audio workstation (DAW) for audio mixing, editing, and mastering. It provides professional audio post-production capabilities.</p>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>🎵 Basic Audio Mixing Workflow</h4>
+                <ol class="step-by-step">
+                    <li>Switch to the Fairlight page - your timeline audio tracks appear</li>
+                    <li>Open the Mixer panel (if not visible, click the Mixer button)</li>
+                    <li>Set levels: Dialogue should peak around -12dB to -6dB</li>
+                    <li>Music should be lower, around -18dB to -12dB</li>
+                    <li>Sound effects vary but generally -20dB to -12dB</li>
+                    <li>Use the faders to adjust overall track volume</li>
+                    <li>Pan tracks left or right for stereo width</li>
+                    <li>Add EQ and compression as needed for clarity</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h3>Audio Tools & Effects</h3>
+                
+                <div class="tutorial-box">
+                    <h4>🎚️ Applying EQ (Equalization)</h4>
+                    <ol class="step-by-step">
+                        <li>Select an audio track in the Fairlight timeline</li>
+                        <li>In the Mixer, click the "EQ" button on the channel strip</li>
+                        <li>The EQ panel opens showing a frequency spectrum</li>
+                        <li>For dialogue: Reduce low frequencies below 80Hz (remove rumble)</li>
+                        <li>Boost slightly around 3-5kHz for clarity and presence</li>
+                        <li>Cut harsh frequencies around 6-8kHz if needed (sibilance)</li>
+                        <li>Use high-pass and low-pass filters to remove unwanted frequencies</li>
+                        <li>A/B compare by toggling the EQ on/off</li>
+                    </ol>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Mixer Controls</h4>
+                        <ul class="feature-list">
+                            <li><strong>Faders:</strong> Adjust track volume</li>
+                            <li><strong>Pan:</strong> Stereo positioning</li>
+                            <li><strong>Solo/Mute:</strong> Isolate or silence tracks</li>
+                            <li><strong>Meters:</strong> Visual level monitoring</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Audio Effects</h4>
+                        <ul class="feature-list">
+                            <li>EQ for frequency shaping</li>
+                            <li>Compression for dynamics control</li>
+                            <li>De-esser for harsh 'S' sounds</li>
+                            <li>Reverb and delay for space</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Editing Tools</h4>
+                        <ul class="feature-list">
+                            <li>Elastic wave retiming</li>
+                            <li>Audio normalization</li>
+                            <li>Clip gain adjustments</li>
+                            <li>Crossfades and automation</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Advanced Features</h4>
+                        <ul class="feature-list">
+                            <li>ADR and dialogue replacement</li>
+                            <li>Multi-track recording</li>
+                            <li>Fairlight FX plugins</li>
+                            <li>Bussing and routing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>🎤 Noise Reduction</h4>
+                <ol class="step-by-step">
+                    <li>Select the audio clip with unwanted background noise</li>
+                    <li>Go to the Effects Library and find "Voice Isolation" or "Noise Reduction"</li>
+                    <li>Drag the effect onto your audio clip</li>
+                    <li>In the Inspector, adjust the threshold to remove noise without affecting dialogue</li>
+                    <li>For Dialogue Cleaner: Set the amount based on noise level (start around 50%)</li>
+                    <li>Fine-tune with the "Reduce" slider</li>
+                    <li>Use "Learn" feature if available to sample the noise floor</li>
+                </ol>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>🔊 Audio Compression Basics</h4>
+                <ol class="step-by-step">
+                    <li>In the Mixer, click "Dynamics" on your dialogue track</li>
+                    <li>Select "Compressor" from the dropdown</li>
+                    <li>Set Threshold to where your audio consistently hits (around -18dB)</li>
+                    <li>Set Ratio to 3:1 for gentle compression (good starting point)</li>
+                    <li>Adjust Attack to 10-30ms (how quickly compression engages)</li>
+                    <li>Set Release to 50-100ms (how quickly it lets go)</li>
+                    <li>Use the Gain/Makeup to compensate for reduced volume</li>
+                    <li>Watch the gain reduction meter - aim for 3-6dB of reduction</li>
+                </ol>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>🎼 Mixing Music with Dialogue</h4>
+                <ol class="step-by-step">
+                    <li>Place music on a separate track from dialogue</li>
+                    <li>Lower music volume when dialogue is present (ducking)</li>
+                    <li>Method 1: Manually keyframe volume down during dialogue sections</li>
+                    <li>Method 2: Use sidechain compression (dialogue triggers music reduction)</li>
+                    <li>Set music to peak around -18dB to -12dB when alone</li>
+                    <li>Duck to -25dB to -20dB during critical dialogue</li>
+                    <li>Use crossfades on music edits for smooth transitions</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Deliver Module -->
+        <section class="module" id="deliver">
+            <h2>
+                <div class="module-icon">📤</div>
+                Deliver Page
+            </h2>
+            
+            <div class="section">
+                <h3>Overview</h3>
+                <p>The Deliver Page is used for exporting your final project in various formats. It provides comprehensive rendering options for different platforms and requirements.</p>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>📤 Export for YouTube (1080p)</h4>
+                <ol class="step-by-step">
+                    <li>Switch to the Deliver page</li>
+                    <li>In the Render Settings panel (left side), select "YouTube" from the preset dropdown</li>
+                    <li>Set Format to "MP4" and Codec to "H.264"</li>
+                    <li>Set Resolution to "1920x1080 HD"</li>
+                    <li>Quality: Choose "Restrict to" and set bitrate to 10,000 Kb/s for high quality</li>
+                    <li>Under Audio, ensure codec is "AAC" at 320 Kb/s</li>
+                    <li>Name your file and choose export location at the bottom</li>
+                    <li>Click "Add to Render Queue" then click "Start Render"</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h3>Export Settings & Formats</h                <div class="tutorial-box">
+                    <h4>🎬 Export for Professional Use (ProRes)</h4>
+                    <ol class="step-by-step">
+                        <li>Select "Custom" from the format dropdown</li>
+                        <li>Set Format to "QuickTime" and Codec to "Apple ProRes 422"</li>
+                        <li>Choose resolution based on source (4K, 1080p, etc.)</li>
+                        <li>Set frame rate to match your timeline (23.98, 24, 29.97, etc.)</li>
+                        <li>Audio: Set to "Linear PCM" 48kHz 24-bit for highest quality</li>
+                        <li>This creates large files but maintains maximum quality</li>
+                        <li>Ideal for further editing or professional broadcast</li>
+                    </ol>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Common Export Formats</h4>
+                        <ul class="feature-list">
+                            <li><strong>H.264 MP4:</strong> Web, social media, general viewing</li>
+                            <li><strong>H.265/HEVC:</strong> Smaller files, newer devices</li>
+                            <li><strong>ProRes:</strong> Professional editing and archival</li>
+                            <li><strong>DNxHD/DNxHR:</strong> Avid workflows</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Platform Presets</h4>
+                        <ul class="feature-list">
+                            <li>YouTube (various qualities)</li>
+                            <li>Vimeo optimized settings</li>
+                            <li>Instagram posts and stories</li>
+                            <li>TikTok and vertical video</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Quality Settings</h4>
+                        <ul class="feature-list">
+                            <li><strong>Bitrate:</strong> Higher = better quality, larger file</li>
+                            <li><strong>Constant/Variable:</strong> CBR vs VBR encoding</li>
+                            <li><strong>Quality vs Size:</strong> Balance for intended use</li>
+                            <li><strong>Two-pass:</strong> Better quality, longer render</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>Advanced Options</h4>
+                        <ul class="feature-list">
+                            <li>Custom LUTs for delivery</li>
+                            <li>Burn-in timecode and metadata</li>
+                            <li>Multiple format batch exports</li>
+                            <li>Render queue management</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>📱 Export for Instagram (Square and Stories)</h4>
+                <ol class="step-by-step">
+                    <li>For Square Posts: Set resolution to 1080x1080</li>
+                    <li>For Stories: Set resolution to 1080x1920 (9:16 aspect ratio)</li>
+                    <li>Use H.264 codec with high-quality settings</li>
+                    <li>Set bitrate to 6,000-8,000 Kb/s for good quality</li>
+                    <li>Keep file size under 4GB for Instagram compatibility</li>
+                    <li>Audio: AAC codec, 128-320 Kb/s</li>
+                    <li>For Stories: Keep text and important content in the safe zone</li>
+                </ol>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>⚡ Render Queue Management</h4>
+                <ol class="step-by-step">
+                    <li>Set up multiple exports with different settings</li>
+                    <li>Click "Add to Render Queue" for each export instead of rendering immediately</li>
+                    <li>View all queued jobs in the "Render Queue" tab</li>
+                    <li>Reorder jobs by dragging them up or down</li>
+                    <li>Pause, resume, or cancel individual jobs</li>
+                    <li>Set up overnight rendering for large projects</li>
+                    <li>Jobs will render sequentially when you click "Start Render"</li>
+                </ol>
+            </div>
+
+            <div class="tutorial-box">
+                <h4>🎯 Optimizing Render Settings</h4>
+                <ol class="step-by-step">
+                    <li><strong>For Web:</strong> Use H.264, variable bitrate, two-pass encoding</li>
+                    <li><strong>File Size Priority:</strong> Lower bitrate, use H.265 if supported</li>
+                    <li><strong>Quality Priority:</strong> Higher bitrate, ProRes for mastering</li>
+                    <li><strong>Speed Priority:</strong> Use GPU acceleration, single-pass encoding</li>
+                    <li>Test short segments before rendering full projects</li>
+                    <li>Consider your audience's viewing devices and bandwidth</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <div class="quiz-container" id="quizContainer">
+            <div class="quiz-header">
+                <h2>📝 Knowledge Quiz</h2>
+                <p>Test your understanding of DaVinci Resolve</p>
+                <div class="score-display" id="scoreDisplay">Score: 0/12</div>
+            </div>
+
+            <div class="quiz-question" id="question0">
+                <h3>Question 1 of 12</h3>
+                <p>Which DaVinci Resolve page is best for quickly assembling a rough cut?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(0, 0)">Media Page</div>
+                    <div class="quiz-option" onclick="selectOption(0, 1)">Cut Page</div>
+                    <div class="quiz-option" onclick="selectOption(0, 2)">Edit Page</div>
+                    <div class="quiz-option" onclick="selectOption(0, 3)">Color Page</div>
+                </div>
+                <div class="quiz-feedback" id="feedback0">
+                    <strong>Correct!</strong> The Cut Page is specifically designed for fast, streamlined editing workflows and quick assembly cuts.
+                </div>
+            </div>
+
+            <div class="quiz-question" id="question1" style="display: none;">
+                <h3>Question 2 of 12</h3>
+                <p>What does the Lift control adjust in the Color Page?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(1, 0)">Highlights only</div>
+                    <div class="quiz-option" onclick="selectOption(1, 1)">Shadows/darkest parts</div>
+                    <div class="quiz-option" onclick="selectOption(1, 2)">Midtones only</div>
+                    <div class="quiz-option" onclick="selectOption(1, 3)">Overall brightness</div>
+                </div>
+                <div class="quiz-feedback" id="feedback1">
+                    <strong>Correct!</strong> Lift controls the shadows and darkest parts of your image. It's the first step in proper color correction.
+                </div>
+            </div>
+
+            <div class="quiz-question" id="question2" style="display: none;">
+                <h3>Question 3 of 12</h3>
+                <p>In Fusion, what connects different tools together?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(2, 0)">Layers</div>
+                    <div class="quiz-option" onclick="selectOption(2, 1)">Nodes</div>
+                    <div class="quiz-option" onclick="selectOption(2, 2)">Tracks</div>
+                    <div class="quiz-option" onclick="selectOption(2, 3)">Clips</div>
+                </div>
+                <div class="quiz-feedback" id="feedback2">
+                    <strong>Correct!</strong> Fusion uses a node-based workflow where tools are connected by dragging from one node's output to another's input.
+                </div>
+            </div>
+
+            <div class="quiz-question" id="question3" style="display: none;">
+                <h3>Question 4 of 12</h3>
+                <p>What is the recommended dialogue level in Fairlight?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(3, 0)">-6dB to 0dB</div>
+                    <div class="quiz-option" onclick="selectOption(3, 1)">-12dB to -6dB</div>
+                    <div class="quiz-option" onclick="selectOption(3, 2)">-20dB to -12dB</div>
+                    <div class="quiz-option" onclick="selectOption(3, 3)">-25dB to -18dB</div>
+                </div>
+                <div class="quiz-feedback" id="feedback3">
+                    <strong>Correct!</strong> Dialogue should typically peak between -12dB and -6dB for proper broadcast standards and clarity.
+                </div>
+            </div>
+
+            <div class="quiz-question" id="question4" style="display: none;">
+                <h3>Question 5 of 12</h3>
+                <p>Which trim tool adjusts clip duration while shifting subsequent clips?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(4, 0)">Ripple Trim</div>
+                    <div class="quiz-option" onclick="selectOption(4, 1)">Roll Trim</div>
+                    <div class="quiz-option" onclick="selectOption(4, 2)">Slip Tool</div>
+                    <div class="quiz-option" onclick="selectOption(4, 3)">Slide Tool</div>
+                </div>
+                <div class="quiz-feedback" id="feedback4">
+                    <strong>Correct!</strong> Ripple Trim adjusts the clip duration and automatically shifts all subsequent clips to maintain sync.
+                </div>
+            </div>
+
+            <div class="quiz-question" id="question5" style="display: none;">
+                <h3>Question 6 of 12</h3>
+                <p>What file format is best for YouTube uploads?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(5, 0)">ProRes 422</div>
+                    <div class="quiz-option" onclick="selectOption(5, 1)">H.264 MP4</div>
+                    <div class="quiz-option" onclick="selectOption(5, 2)">DNxHD</div>
+                    <div class="quiz-option" onclick="selectOption(5, 3)">AVI</div>
+                </div>
+                <div class="quiz-feedback" id="feedback5">
+                    <strong>Correct!</strong> H.264 MP4 provides the best balance of quality and file size for web platforms like YouTube.
+                </div>
+            </div>
+
+            <div class="quiz-question" id="question6" style="display: none;">
+                <h3>Question 7 of 12</h3>
+                <p>In the Media Page, what are Bins used for?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(6, 0)">Color correction</div>
+                    <div class="quiz-option" onclick="selectOption(6, 1)">Organizing media files</div>
+                    <div class="quiz-option" onclick="selectOption(6, 2)">Audio mixing</div>
+                    <div class="quiz-option" onclick="selectOption(6, 3)">Video effects</div>
+                </div>
+                <div class="quiz-feedback" id="feedback6">
+                    <strong>Correct!</strong> Bins are like folders that help organize your media files into categories for easier project management.
+                </div>
+            </div>
+
+            <div class="quiz-question" id="question7" style="display: none;">
+                <h3>Question 8 of 12</h3>
+                <p>What does the Vectorscope display in the Color Page?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(7, 0)">Luminance levels</div>
+                    <div class="quiz-option" onclick="selectOption(7, 1)">Hue and saturation</div>
+                    <div class="quiz-option" onclick="selectOption(7, 2)">RGB balance</div>
+                    <div class="quiz-option" onclick="selectOption(7, 3)">Contrast levels</div>
+                </div>
+                <div class="quiz-feedback" id="feedback7">
+                    <strong>Correct!</strong> The Vectorscope shows hue (color) and saturation (intensity) information, helping with color correction.
+                </div>
+            </div>
+
+            <div class="quiz-question" id="question8" style="display: none;">
+                <h3>Question 9 of 12</h3>
+                <p>Which keyboard shortcut activates the Blade Tool in the Edit Page?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(8, 0)">A</div>
+                    <div class="quiz-option" onclick="selectOption(8, 1)">B</div>
+                    <div class="quiz-option" onclick="selectOption(8, 2)">C</div>
+                    <div class="quiz-option" onclick="selectOption(8, 3)">V</div>
+                </div>
+                <div class="quiz-feedback" id="feedback8">
+                    <strong>Correct!</strong> Press 'B' to activate the Blade Tool for making cuts. Press 'A' to return to the Selection Tool.
+                </div>
+            </div>
+
+            <div class="quiz-question" id="question9" style="display: none;">
+                <h3>Question 10 of 12</h3>
+                <p>What is the purpose of compression in audio mixing?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(9, 0)">Remove background noise</div>
+                    <div class="quiz-option" onclick="selectOption(9, 1)">Control dynamic range</div>
+                    <div class="quiz-option" onclick="selectOption(9, 2)">Add reverb</div>
+                    <div class="quiz-option" onclick="selectOption(9, 3)">Change pitch</div>
+                </div>
+                <div class="quiz-feedback" id="feedback9">
+                    <strong>Correct!</strong> Compression controls the dynamic range by reducing the difference between loud and quiet parts.
+                </div>
+            </div>
+
+            <div class="quiz-question" id="question10" style="display: none;">
+                <h3>Question 11 of 12</h3>
+                <p>What is the difference between Insert and Overwrite editing?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(10, 0)">Insert shifts clips, Overwrite replaces clips</div>
+                    <div class="quiz-option" onclick="selectOption(10, 1)">Overwrite shifts clips, Insert replaces clips</div>
+                    <div class="quiz-option" onclick="selectOption(10, 2)">No difference, they're the same</div>
+                    <div class="quiz-option" onclick="selectOption(10, 3)">Insert is for audio, Overwrite is for video</div>
+                </div>
+                <div class="quiz-feedback" id="feedback10">
+                    <strong>Correct!</strong> Insert editing shifts existing clips to make room, while Overwrite replaces clips at the timeline position.
+                </div>
+            </div>
+
+            <div class="quiz-question" id="question11" style="display: none;">
+                <h3>Question 12 of 12</h3>
+                <p>What does a LUT do in color grading?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(11, 0)">Adds visual effects</div>
+                    <div class="quiz-option" onclick="selectOption(11, 1)">Applies predetermined color transformation</div>
+                    <div class="quiz-option" onclick="selectOption(11, 2)">Removes noise</div>
+                    <div class="quiz-option" onclick="selectOption(11, 3)">Adjusts audio levels</div>
+                </div>
+                <div class="quiz-feedback" id="feedback11">
+                    <strong>Correct!</strong> A LUT (Look-Up Table) applies a predetermined color transformation to achieve a specific look or correct color space.
+                </div>
+            </div>
+
+            <div class="quiz-controls">
+                <button class="quiz-btn secondary" onclick="prevQuestion()" id="prevBtn" disabled>Previous</button>
+                <button class="quiz-btn primary" onclick="nextQuestion()" id="nextBtn">Next</button>
+                <button class="quiz-btn primary" onclick="resetQuiz()" id="resetBtn" style="display: none;">Reset Quiz</button>
+            </div>
+        </div>
+
+        <!-- Drag and Drop Game -->
+        <div class="quiz-container" style="margin-top: 2rem;">
+            <div class="quiz-header">
+                <h2>🎮 Workspace Matching Game</h2>
+                <p>Drag each workspace to its correct function</p>
+            </div>
+
+            <div class="game-container">
+                <div class="game-column">
+                    <h3>🎬 Workspaces</h3>
+                    <div id="workspaceItems">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="game-column">
+                    <h3>⚙️ Functions</h3>
+                    <div id="functionZones">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-controls">
+                <button class="quiz-btn primary" onclick="checkGame()">Check Answers</button>
+                <button class="quiz-btn secondary" onclick="resetGame()">Reset Game</button>
+            </div>
+
+            <div class="game-result" id="gameResult">
+                <!-- Results populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Module Navigation
+        function showModule(moduleId) {
+            // Hide all modules
+            document.querySelectorAll('.module').forEach(module => {
+                module.classList.remove('active');
+            });
+            
+            // Remove active class from all nav pills
+            document.querySelectorAll('.nav-pill').forEach(pill => {
+                pill.classList.remove('active');
+            });
+            
+            // Show selected module
+            const targetModule = document.getElementById(moduleId);
+            if (targetModule) {
+                targetModule.classList.add('active');
+            }
+            
+            // Add active class to corresponding nav pill
+            const targetPill = document.querySelector(`[data-module="${moduleId}"]`);
+            if (targetPill) {
+                targetPill.classList.add('active');
+            }
+            
+            // Update progress bar
+            updateProgressBar(moduleId);
+        }
+
+        // Progress Bar
+        function updateProgressBar(moduleId) {
+            const modules = ['media', 'cut', 'edit', 'fusion', 'color', 'fairlight', 'deliver'];
+            const currentIndex = modules.indexOf(moduleId);
+            const progress = ((currentIndex + 1) / modules.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Quiz Functionality
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = [];
+        const correctAnswers = [1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1]; // Correct answer indices
+
+        function selectOption(questionIndex, optionIndex) {
+            const question = document.getElementById(`question${questionIndex}`);
+            const options = question.querySelectorAll('.quiz-option');
+            
+            // Remove previous selections
+            options.forEach(option => option.classList.remove('selected'));
+            
+            // Add selected class
+            options[optionIndex].classList.add('selected');
+            
+            // Store answer
+            userAnswers[questionIndex] = optionIndex;
+            
+            // Show feedback immediately
+            showFeedback(questionIndex, optionIndex);
+        }
+
+        function showFeedback(questionIndex, selectedIndex) {
+            const feedback = document.getElementById(`feedback${questionIndex}`);
+            const options = document.querySelectorAll(`#question${questionIndex} .quiz-option`);
+            const correctIndex = correctAnswers[questionIndex];
+            
+            // Reset option styles
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+            
+            // Mark correct answer
+            options[correctIndex].classList.add('correct');
+            
+            // Mark incorrect answer if wrong was selected
+            if (selectedIndex !== correctIndex) {
+                options[selectedIndex].classList.add('incorrect');
+                feedback.className = 'quiz-feedback show incorrect';
+                feedback.innerHTML = `<strong>Incorrect.</strong> The correct answer is highlighted in green.`;
+            } else {
+                feedback.className = 'quiz-feedback show correct';
+            }
+            
+            feedback.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < 11) {
+                // Hide current question
+                document.getElementById(`question${currentQuestion}`).style.display = 'none';
+                
+                currentQuestion++;
+                
+                // Show next question
+                document.getElementById(`question${currentQuestion}`).style.display = 'block';
+                
+                // Update buttons
+                document.getElementById('prevBtn').disabled = false;
+                
+                if (currentQuestion === 11) {
+                    document.getElementById('nextBtn').style.display = 'none';
+                    document.getElementById('resetBtn').style.display = 'inline-block';
+                    calculateScore();
+                }
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                // Hide current question
+                document.getElementById(`question${currentQuestion}`).style.display = 'none';
+                
+                currentQuestion--;
+                
+                // Show previous question
+                document.getElementById(`question${currentQuestion}`).style.display = 'block';
+                
+                // Update buttons
+                document.getElementById('nextBtn').style.display = 'inline-block';
+                document.getElementById('resetBtn').style.display = 'none';
+                
+                if (currentQuestion === 0) {
+                    document.getElementById('prevBtn').disabled = true;
+                }
+            }
+        }
+
+        function calculateScore() {
+            score = 0;
+            for (let i = 0; i < correctAnswers.length; i++) {
+                if (userAnswers[i] === correctAnswers[i]) {
+                    score++;
+                }
+            }
+            document.getElementById('scoreDisplay').textContent = `Score: ${score}/12`;
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = [];
+            
+            // Hide all questions
+            for (let i = 0; i < 12; i++) {
+                document.getElementById(`question${i}`).style.display = 'none';
+                
+                // Reset option selections and feedback
+                const options = document.querySelectorAll(`#question${i} .quiz-option`);
+                options.forEach(option => {
+                    option.classList.remove('selected', 'correct', 'incorrect');
+                });
+                
+                const feedback = document.getElementById(`feedback${i}`);
+                feedback.style.display = 'none';
+                feedback.className = 'quiz-feedback';
+            }
+            
+            // Show first question
+            document.getElementById('question0').style.display = 'block';
+            
+            // Reset buttons
+            document.getElementById('prevBtn').disabled = true;
+            document.getElementById('nextBtn').style.display = 'inline-block';
+            document.getElementById('resetBtn').style.display = 'none';
+            
+            // Reset score display
+            document.getElementById('scoreDisplay').textContent = 'Score: 0/12';
+        }
+
+        // Drag and Drop Game
+        const gameData = {
+            workspaces: [
+                { id: 'media', name: '📁 Media Page', color: 'linear-gradient(135deg, #2563eb, #7c3aed)' },
+                { id: 'cut', name: '✂️ Cut Page', color: 'linear-gradient(135deg, #2563eb, #7c3aed)' },
+                { id: 'edit', name: '🎬 Edit Page', color: 'linear-gradient(135deg, #2563eb, #7c3aed)' },
+                { id: 'fusion', name: '⚡ Fusion Page', color: 'linear-gradient(135deg, #2563eb, #7c3aed)' },
+                { id: 'color', name: '🎨 Color Page', color: 'linear-gradient(135deg, #2563eb, #7c3aed)' },
+                { id: 'fairlight', name: '🎵 Fairlight Page', color: 'linear-gradient(135deg, #2563eb, #7c3aed)' },
+                { id: 'deliver', name: '📤 Deliver Page', color: 'linear-gradient(135deg, #2563eb, #7c3aed)' }
+            ],
+            functions: [
+                { id: 'media', text: 'Import and organize media assets' },
+                { id: 'cut', text: 'Quick cuts and assembly editing' },
+                { id: 'edit', text: 'Detailed timeline manipulation and effects' },
+                { id: 'fusion', text: 'Visual effects and motion graphics' },
+                { id: 'color', text: 'Color correction and grading' },
+                { id: 'fairlight', text: 'Audio mixing and mastering' },
+                { id: 'deliver', text: 'Export final project in various formats' }
+            ]
+        };
+
+        let draggedElement = null;
+
+        function initGame() {
+            const workspaceContainer = document.getElementById('workspaceItems');
+            const functionContainer = document.getElementById('functionZones');
+
+            // Shuffle workspaces
+            const shuffledWorkspaces = [...gameData.workspaces].sort(() => Math.random() - 0.5);
+
+            workspaceContainer.innerHTML = shuffledWorkspaces.map(ws => `
+                <div class="draggable-item" draggable="true" data-id="${ws.id}" style="background: ${ws.color}">
+                    ${ws.name}
+                </div>
+            `).join('');
+
+            functionContainer.innerHTML = gameData.functions.map(fn => `
+                <div class="drop-zone" data-id="${fn.id}">
+                    <strong>${fn.text}</strong>
+                    <div class="dropped-items"></div>
+                </div>
+            `).join('');
+
+            setupDragAndDrop();
+        }
+
+        function setupDragAndDrop() {
+            const draggables = document.querySelectorAll('.draggable-item');
+            const dropZones = document.querySelectorAll('.drop-zone');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', function(e) {
+                    draggedElement = this;
+                    this.classList.add('dragging');
+                });
+
+                draggable.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('drag-over');
+                });
+
+                zone.addEventListener('dragleave', function() {
+                    this.classList.remove('drag-over');
+                });
+
+                zone.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('drag-over');
+                    
+                    if (draggedElement) {
+                        // Remove from previous location
+                        const previousParent = draggedElement.parentElement;
+                        
+                        // Add to new location
+                        const droppedItems = this.querySelector('.dropped-items') || this;
+                        
+                        // If there's already an item in this zone, swap them
+                        const existingItem = droppedItems.querySelector('.draggable-item');
+                        if (existingItem) {
+                            // Move existing item to dragged element's previous location
+                            if (previousParent.classList.contains('dropped-items') || previousParent.id === 'workspaceItems') {
+                                previousParent.appendChild(existingItem);
+                            }
+                        }
+                        
+                        droppedItems.appendChild(draggedElement);
+                    }
+                });
+            });
+        }
+
+        function checkGame() {
+            const dropZones = document.querySelectorAll('.drop-zone');
+            let correct = 0;
+            let total = dropZones.length;
+
+            dropZones.forEach(zone => {
+                const zoneId = zone.dataset.id;
+                const droppedItem = zone.querySelector('.draggable-item');
+                
+                zone.classList.remove('correct', 'incorrect');
+                
+                if (droppedItem) {
+                    const itemId = droppedItem.dataset.id;
+                    if (itemId === zoneId) {
+                        zone.classList.add('correct');
+                        correct++;
+                    } else {
+                        zone.classList.add('incorrect');
+                    }
+                }
+            });
+
+            const resultDiv = document.getElementById('gameResult');
+            const percentage = (correct / total) * 100;
+            
+            let message, icon;
+            if (percentage === 100) {
+                message = "Perfect! You've mastered the DaVinci Resolve workflow! 🎉";
+                icon = "🏆";
+            } else if (percentage >= 70) {
+                message = "Great job! You understand most of the workspaces! 👏";
+                icon = "⭐";
+            } else {
+                message = "Keep trying! Review the modules to learn more. 💪";
+                icon = "📚";
+            }
+
+            resultDiv.innerHTML = `
+                <div style="font-size: 3rem; margin-bottom: 1rem;">${icon}</div>
+                <h3 style="color: var(--primary-blue); margin-bottom: 0.5rem;">Score: ${correct} / ${total} (${percentage.toFixed(0)}%)</h3>
+                <p style="color: var(--text-medium);">${message}</p>
+            `;
+            resultDiv.classList.add('show');
+        }
+
+        function resetGame() {
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.classList.remove('correct', 'incorrect');
+            });
+            document.getElementById('gameResult').classList.remove('show');
+            initGame();
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize navigation
+            showModule('media');
+            
+            // Setup navigation pills
+            document.querySelectorAll('.nav-pill').forEach(pill => {
+                pill.addEventListener('click', function() {
+                    const moduleId = this.getAttribute('data-module');
+                    showModule(moduleId);
+                });
+            });
+            
+            // Initialize game
+            initGame();
+        });
+
+        // Smooth scroll for quiz section
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('nav-pill')) {
+                setTimeout(() => {
+                    const container = document.querySelector('.container');
+                    if (container) {
+                        window.scrollTo({ 
+                            top: container.offsetTop - 100, 
+                            behavior: 'smooth' 
+                        });
+                    }
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>
